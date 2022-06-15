@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>OpenGraph</title>
+
+
+
+
+<style>
+
+</style>
+</head>
+
+<body>
+	 <!-- URL 입력 -->
+	<input type="text" id="baseURL" />
+	<button type="button" id="sendURL">전송</button>
+	
+	
+	<div id="result_box">
+
+	</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js" integrity="sha512-n/4gHW3atM3QqRcbCn6ewmpxcLAHGaDjpEBu4xZd47N0W2oQ+6q7oc3PXstrJYXcbNU1OHdQ1T7pAP+gi5Yu8g==" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function() {
+	$("#sendURL").on("click", function() {
+		const baseURL = $("#baseURL").val();
+		
+		$.ajax({
+			url: "./getOpenGraph"
+			, type: "GET"
+			, data: {baseURL : baseURL}
+			, success: function(ogVO) {
+				var title = $("<h3>title</h3><p>" + ogVO.title + "</p><hr>");
+				var type = $("<h3>type</h3><p>" + ogVO.type + "</p><hr>");
+				var author = $("<h3>article:author</h3><p>" + ogVO.author + "</p><hr>");
+				var description = $("<h3>description</h3><p>" + ogVO.description + "</p><hr>");
+				var url = $("<h3>url</h3><p>" + ogVO.url + "</p><hr>");
+				var image = $("<h3>image</h3><img src='" + ogVO.image + "' /><hr>");
+				
+				$("#result_box").html("");
+				$("#result_box").append(title);
+				$("#result_box").append(description);
+				$("#result_box").append(url);
+				$("#result_box").append(image);
+			}, error: function(e) {
+				console.log(e);
+			}
+		});
+	});
+});
+</script>
+</body>
+</html>
